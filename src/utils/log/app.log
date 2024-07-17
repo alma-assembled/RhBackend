@@ -1,0 +1,365 @@
+2024-06-25 10:53:20 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 10:53:20 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 41, in verify_token
+    payload = jwt.decode(encoded_token, cls.secret, algorithms=["HS256"])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\jwt\api_jwt.py", line 210, in decode
+    decoded = self.decode_complete(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\jwt\api_jwt.py", line 162, in decode_complete
+    self._validate_claims(
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\jwt\api_jwt.py", line 248, in _validate_claims
+    self._validate_exp(payload, now, leeway)
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\jwt\api_jwt.py", line 306, in _validate_exp
+    raise ExpiredSignatureError("Signature has expired")
+jwt.exceptions.ExpiredSignatureError: Signature has expired
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 51, in verify_token
+    Logger.add_to_log(f"Error decoding token: {str(e)}")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:18:04 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 11:18:04 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:18:04 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:18:04 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:18:04 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 11:18:04 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:18:04 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 11:18:04 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:18:59 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 11:18:59 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:18:59 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 11:18:59 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:19:03 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 11:19:03 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:19:03 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 11:19:03 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:19:03 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 11:19:03 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:19:03 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 11:19:03 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:24:56 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 11:24:56 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:24:56 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 11:24:56 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:24:56 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 11:24:56 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 11:24:56 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:24:56 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:24:56 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:25:45 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 11:25:45 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:25:45 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 11:25:45 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:25:57 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 11:25:57 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:25:57 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 11:25:57 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:25:57 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 11:25:57 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:25:57 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 11:25:57 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:28:25 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 11:28:25 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:28:25 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 11:28:25 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:28:37 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 11:28:37 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:28:37 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 11:28:37 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 11:28:37 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:28:37 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 11:28:37 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 11:28:37 | ERROR | Logger.add_to_log() missing 1 required positional argument: 'message'
+2024-06-25 11:28:38 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\utils\Security.py", line 57, in verify_token
+    Logger.add_to_log("Authorization header not found")
+TypeError: Logger.add_to_log() missing 1 required positional argument: 'message'
+
+2024-06-25 12:39:09 | ERROR | (1406, "Data too long for column 'PIN' at row 1")
+2024-06-25 12:39:09 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\services\Empleados.py", line 50, in save_empleado
+    cursor.execute('''
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+             ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 563, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 825, in _read_query_result
+    result.read()
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 1199, in read
+    first_packet = self.connection._read_packet()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.DataError: (1406, "Data too long for column 'PIN' at row 1")
+
+2024-06-25 12:57:37 | ERROR | (1064, 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'UNION\n                SELECT e.ID_CEMPLEADO, e.NOMBRE,COALESCE(e.N_EMPLEADO , "N\' at line 6')
+2024-06-25 12:57:37 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\services\Empleados.py", line 19, in get_empleados
+    cursor.execute('''
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+             ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 563, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 825, in _read_query_result
+    result.read()
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 1199, in read
+    first_packet = self.connection._read_packet()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.ProgrammingError: (1064, 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'UNION\n                SELECT e.ID_CEMPLEADO, e.NOMBRE,COALESCE(e.N_EMPLEADO , "N\' at line 6')
+
+2024-06-25 12:57:37 | ERROR | (1064, 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'UNION\n                SELECT e.ID_CEMPLEADO, e.NOMBRE,COALESCE(e.N_EMPLEADO , "N\' at line 6')
+2024-06-25 12:57:37 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\services\Empleados.py", line 19, in get_empleados
+    cursor.execute('''
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+             ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 563, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 825, in _read_query_result
+    result.read()
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 1199, in read
+    first_packet = self.connection._read_packet()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.ProgrammingError: (1064, 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'UNION\n                SELECT e.ID_CEMPLEADO, e.NOMBRE,COALESCE(e.N_EMPLEADO , "N\' at line 6')
+
+2024-06-25 12:57:49 | ERROR | (1064, 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'UNION\n                SELECT e.ID_CEMPLEADO, e.NOMBRE,COALESCE(e.N_EMPLEADO , "N\' at line 6')
+2024-06-25 12:57:49 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\services\Empleados.py", line 19, in get_empleados
+    cursor.execute('''
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+             ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 563, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 825, in _read_query_result
+    result.read()
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 1199, in read
+    first_packet = self.connection._read_packet()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.ProgrammingError: (1064, 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'UNION\n                SELECT e.ID_CEMPLEADO, e.NOMBRE,COALESCE(e.N_EMPLEADO , "N\' at line 6')
+
+2024-06-25 12:57:49 | ERROR | (1064, 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'UNION\n                SELECT e.ID_CEMPLEADO, e.NOMBRE,COALESCE(e.N_EMPLEADO , "N\' at line 6')
+2024-06-25 12:57:49 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\services\Empleados.py", line 19, in get_empleados
+    cursor.execute('''
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+             ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 563, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 825, in _read_query_result
+    result.read()
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 1199, in read
+    first_packet = self.connection._read_packet()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.ProgrammingError: (1064, 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'UNION\n                SELECT e.ID_CEMPLEADO, e.NOMBRE,COALESCE(e.N_EMPLEADO , "N\' at line 6')
+
+2024-06-25 15:15:19 | ERROR | (1064, 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'UNION\n                SELECT e.ID_CEMPLEADO, e.NOMBRE,COALESCE(e.N_EMPLEADO , "N\' at line 6')
+2024-06-25 15:15:19 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\services\Empleados.py", line 19, in get_empleados
+    cursor.execute('''
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+             ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 563, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 825, in _read_query_result
+    result.read()
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 1199, in read
+    first_packet = self.connection._read_packet()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.ProgrammingError: (1064, 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'UNION\n                SELECT e.ID_CEMPLEADO, e.NOMBRE,COALESCE(e.N_EMPLEADO , "N\' at line 6')
+
+2024-06-25 15:15:19 | ERROR | (1064, 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'UNION\n                SELECT e.ID_CEMPLEADO, e.NOMBRE,COALESCE(e.N_EMPLEADO , "N\' at line 6')
+2024-06-25 15:15:19 | ERROR | Traceback (most recent call last):
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\src\services\Empleados.py", line 19, in get_empleados
+    cursor.execute('''
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+             ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 563, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 825, in _read_query_result
+    result.read()
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 1199, in read
+    first_packet = self.connection._read_packet()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "C:\Users\desar\OneDrive\Documentos\Backend-Alma\rh_Backend\venv\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.ProgrammingError: (1064, 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'UNION\n                SELECT e.ID_CEMPLEADO, e.NOMBRE,COALESCE(e.N_EMPLEADO , "N\' at line 6')
+
+2024-06-26 11:39:20 | INFO | GET /
