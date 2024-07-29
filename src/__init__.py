@@ -10,7 +10,7 @@ CORS(app)
 def init_app(config):
     # Configuration
     app.config.from_object(config)
-
+    app.run(host='0.0.0.0', port=5050)
     # Blueprints
     app.register_blueprint(IndexRoutes.main, url_prefix='/')
     app.register_blueprint(AuthRoutes.main, url_prefix='/auth')
