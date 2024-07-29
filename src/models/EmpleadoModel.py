@@ -20,16 +20,42 @@ class Empleado():
             'puesto': puesto
         }
     
+    def empleado_by_id_serializer( nombre, pin, correo, usuario, clave, maquilador,
+                                genero, progenitor, fecha_nacimiento, celular, banco, 
+                                   clave_inter, sueldo,fecha_ingreso,id_puesto):
+        return {
+            "nombre": nombre,
+            "pin": pin,
+            "correo": correo,
+            "usuario": usuario,
+            "clave": clave,
+            "maquilador": maquilador,
+            "genero": genero,
+            "progenitor": progenitor,
+            "fecha_nacimiento": fecha_nacimiento,
+            "celular": celular,
+            "id_banco": banco,
+            "clave_interbancaria": clave_inter,
+            "sueldo": sueldo,
+            "fecha_ingreso": fecha_ingreso,
+            "id_puesto": id_puesto
+        }
+    
+    def cumpleañeros_serializers(nombre, fecha ):
+        return {
+            "nombre": nombre,
+            "fecha": fecha
+        }
+    
 class EmpleadoModel:
-    def __init__(self, nombre, fecha_nacimiento=None, genero=None, progenitor=None, n_empleado=None, correo=None, pin=None, 
-                   usuario=None, celular=None, clave=None, maquilador=None, sueldo=None, fecha_inicio=None, id_puesto=None, id_banco=None, 
+    def __init__(self, nombre=None, fecha_nacimiento=None, genero=None, progenitor=None, correo=None, pin=None, 
+                   usuario=None, celular=None, clave=None, maquilador=None, sueldo=None, fecha_ingreso=None, id_puesto=None, id_banco=None, 
                    clave_interbancaria=None):
         
         self.nombre = nombre
         self.fecha_nacimiento = fecha_nacimiento
         self.genero = genero
         self.progenitor = progenitor
-        self.n_empleado = n_empleado
         self.pin = pin
         self.correo = correo
         self.usuario = usuario
@@ -37,7 +63,7 @@ class EmpleadoModel:
         self.clave = clave
         self.maquilador = maquilador
         self.sueldo = sueldo
-        self.fecha_inicio =  fecha_inicio
+        self.fecha_ingreso =  fecha_ingreso
         self.id_puesto = id_puesto
         self.id_banco = id_banco
         self.clave_interbancaria = clave_interbancaria
@@ -48,6 +74,4 @@ class EmpleadoModel:
     def serialize(self):
         from src.schemas.empleadoSchema import empleado_schema   
         return empleado_schema.dump(self)
-
-    
     

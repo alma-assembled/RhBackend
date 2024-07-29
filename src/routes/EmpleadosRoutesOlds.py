@@ -5,11 +5,11 @@ from src.utils.Logger import Logger
 # Security
 from src.utils.Security import Security
 # Services
-from src.services.Empleados import EmpleadosService
+from src.services.EmpleadosOld import EmpleadosServiceOlds
 from src.schemas.empleadoSchema import empleado_schema
 
 
-main = Blueprint('empleadosOlds_blueprint', __name__)
+main = Blueprint('empleados_blueprint', __name__)
 
 
 @main.route('/')
@@ -18,9 +18,9 @@ def get_empleados():
 
     if has_access:
         try:
-            empleados = EmpleadosService.get_empleados()
+            empleados = EmpleadosServiceOlds.get_empleados()
             if (len(empleados) > 0):
-                return jsonify({'Empleados': empleados, 'message': "SUCCESS", 'success': True})
+                return jsonify({'Empleado': empleados, 'message': "SUCCESS", 'success': True})
             else:
                 return jsonify({'message': "NOTFOUND", 'success': True})
         except Exception as ex:
@@ -30,6 +30,23 @@ def get_empleados():
     else:
         response = jsonify({'message': 'Unauthorized'})
         return response, 401
+    
+@main.route('/<int:id>', methods=['GET'])
+def get_empleado_by_id(id):
+    has_access = Security.verify_token(request.headers)
+
+    if has_access:
+        try:
+            empleado = EmpleadosServiceOlds.get_empleado_by_id(id)
+            if empleado:
+                return jsonify({'Empleado': empleado, 'message': "SUCCESS", 'success': True})
+            else:
+                return jsonify({'message': "NOTFOUND", 'success': True})
+        except Exception as ex:
+            print(f"Error: {str(ex)}")
+            return jsonify({'message': "ERROR", 'success': False})
+    else:
+        return jsonify({'message': 'Unauthorized'}), 401
     
 @main.route('/', methods=['POST'])
 def post_create_empleado():
@@ -43,11 +60,13 @@ def post_create_empleado():
             if errors:
                 return jsonify(errors), 400
             
-            empleado = EmpleadosService.save_empleado(data)
-            if empleado:
+            empleado = EmpleadosServiceOlds.save_empleado(data)
+            if empleado == True  :
                 return jsonify({'success': True})
-            else:
+            elif empleado ==  False :
                 return jsonify({'message': "Error al guardar el empleado", 'success': False}), 500
+            else :
+                return jsonify({'message': empleado , 'success': False}), 200
         except Exception as ex:
             Logger.add_to_log(f"Error routes POSTEmpleados: {str(ex)}")
             return jsonify({'message': "ERROR", 'success': False}), 500
@@ -62,7 +81,7 @@ def put_baja_empleado(id_empleado):
 
     if has_access:
         try:
-            empleado = EmpleadosService.baja_empleado(id_empleado)
+            empleado = EmpleadosServiceOlds.baja_empleado(id_empleado)
             if empleado:
                 return jsonify({'success': True})
             else:
@@ -79,7 +98,7 @@ def get_puestos():
     has_access = Security.verify_token(request.headers)
     if has_access:
         try:
-            puestos = EmpleadosService.get_puestos()
+            puestos = EmpleadosServiceOlds.get_puestos()
             if (len(puestos) > 0):
                 return jsonify({'Puestos': puestos, 'message': "SUCCESS", 'success': True})
             else:
@@ -97,7 +116,7 @@ def get_bancos():
     has_access = Security.verify_token(request.headers)
     if has_access:
         try:
-            puestos = EmpleadosService.get_bancos()
+            puestos = EmpleadosServiceOlds.get_bancos()
             if (len(puestos) > 0):
                 return jsonify({'Bancos': puestos, 'message': "SUCCESS", 'success': True})
             else:
@@ -109,55 +128,55 @@ def get_bancos():
     else:
         response = jsonify({'message': 'Unauthorized'})
         return response, 401
+
     
-@classmethod
-def update_evento(cls, id_evento, evento_data):
-  try:
-      # Validar datos
-      evento = eventos_schema.load(evento_data)
+@main.route('/<int:id_empleado>', methods=['PUT'])
+def editar_evento(id_empleado):    
+    has_access = Security.verify_token(request.headers)
+    if has_access:
+        try:
+            data = request.json
+            if EmpleadosServiceOlds.update_empleado(id_empleado, data):
+                return jsonify({'success': True, "message": "Empleado actualizado correctamente"}), 200
+            else:
+                return jsonify({'success': False, "message": "Error  al actualizar empleado"}), 500
+        except Exception as ex:
+            Logger.add_to_log(f"Error: {str(ex)}")
+            return jsonify({'message': "ERROR", 'success': False}), 500
 
-      connection = get_connection()
-      set_clause = []
-      values = []
 
-      if evento.tipo is not None:
-          set_clause.append("TIPO = %s")
-          values.append(evento.tipo)
-      if evento.op is not None:
-          set_clause.append("OP = %s")
-          values.append(evento.op)
-      if evento.titulo is not None:
-          set_clause.append("TITULO = %s")
-          values.append(evento.titulo)
-      if evento.descripcion is not None:
-          set_clause.append("DESCRIPCION = %s")
-          values.append(evento.descripcion)
-      if evento.fecha_inicio is not None:
-          set_clause.append("FECHA_INICIO = %s")
-          values.append(evento.fecha_inicio)
-      if evento.fecha_fin is not None:
-          set_clause.append("FECHA_FIN = %s")
-          values.append(evento.fecha_fin)
-      if evento.equipos is not None:
-          set_clause.append("EQUIPOS = %s")
-          values.append(evento.equipos)
+@main.route('/resumen')
+def get_resumen():
+    has_access = Security.verify_token(request.headers)
+    if has_access:
+        try:
+            resumen = EmpleadosServiceOlds.get_resumen()
+            if resumen:
+                return jsonify({'data': resumen, 'message': "SUCCESS", 'success': True})
+            else:
+                return jsonify({'message': "NOTFOUND", 'success': True})
+        except Exception as ex:
+          #  Logger.add_to_log(f"Error routes getEmpleados: {str(ex)}"))
+            return jsonify({'message': "ERROR", 'success': False})
+    else:
+        response = jsonify({'message': 'Unauthorized'})
+        return response, 401
+    
 
-      if not set_clause:
-          raise ValueError("nada para actualizar")
-
-      set_clause_str = ", ".join(set_clause)
-      values.append(id_evento)
-
-      with connection.cursor() as cursor:
-          cursor.execute(f'''
-              UPDATE assembled_db.Eventos
-              SET {set_clause_str}
-              WHERE ID_EVENTO = %s;
-          ''', tuple(values))
-      connection.commit()
-      connection.close()
-      return True
-  except Exception as ex:
-      Logger.add_to_log("error", str(ex))
-      Logger.add_to_log("error", traceback.format_exc())
-      return False
+@main.route('/cumple')
+def get_cumpleaños():
+    has_access = Security.verify_token(request.headers)
+    if has_access:
+        try:
+            data = EmpleadosServiceOlds.get_cumpleaños_mes()
+            if (len(data) > 0):
+                return jsonify({'data': data, 'message': "SUCCESS", 'success': True})
+            else:
+                return jsonify({'message': "NOTFOUND", 'success': True})
+        except Exception as ex:
+          #  Logger.add_to_log(f"Error routes getEmpleados: {str(ex)}")
+            print(ex)
+            return jsonify({'message': "ERROR", 'success': False})
+    else:
+        response = jsonify({'message': 'Unauthorized'})
+        return response, 401
