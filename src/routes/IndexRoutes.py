@@ -7,12 +7,11 @@ from src.utils.Logger import Logger
 
 main = Blueprint('index_blueprint', __name__)
 
-
 @main.route('/')
 def index():
     try:
         Logger.add_to_log("info", "{} {}".format(request.method, request.path))
-        return "Ok"
+        return "Rh Backend : Ok"
     except Exception as ex:
         Logger.add_to_log("error", str(ex))
         Logger.add_to_log("error", traceback.format_exc())
