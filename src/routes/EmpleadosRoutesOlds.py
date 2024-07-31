@@ -31,6 +31,25 @@ def get_empleados():
         response = jsonify({'message': 'Unauthorized'})
         return response, 401
     
+@main.route('/inactivos')
+def get_empleados_inactivos():
+    has_access = Security.verify_token(request.headers)
+
+    if has_access:
+        try:
+            empleados = EmpleadosServiceOlds.get_empleados_inactivos()
+            if (len(empleados) > 0):
+                return jsonify({'Empleado': empleados, 'message': "SUCCESS", 'success': True})
+            else:
+                return jsonify({'message': "NOTFOUND", 'success': True})
+        except Exception as ex:
+          #  Logger.add_to_log(f"Error routes getEmpleados: {str(ex)}")
+            print(ex)
+            return jsonify({'message': "ERROR", 'success': False})
+    else:
+        response = jsonify({'message': 'Unauthorized'})
+        return response, 401
+    
 @main.route('/<int:id>', methods=['GET'])
 def get_empleado_by_id(id):
     has_access = Security.verify_token(request.headers)
@@ -73,7 +92,21 @@ def post_create_empleado():
     else:
         response = jsonify({'message': 'Unauthorized'})
         return response, 401
-    
+
+@main.route('/reingreso/<int:id_empleado>', methods=['PUT'])
+def editar_reingreso_empleado(id_empleado):    
+    has_access = Security.verify_token(request.headers)
+    if has_access:
+        try:
+            data = request.json
+            if EmpleadosServiceOlds.update_reingreso(id_empleado, data):
+                return jsonify({'success': True, "message": "Empleado actualizado correctamente"}), 200
+            else:
+                return jsonify({'success': False, "message": "Error  al actualizar empleado"}), 500
+        except Exception as ex:
+            Logger.add_to_log(f"Error: {str(ex)}")
+            return jsonify({'message': "ERROR", 'success': False}), 500
+
     
 @main.route('/baja-empleado/<int:id_empleado>', methods=['PUT'])
 def put_baja_empleado(id_empleado):
@@ -131,7 +164,7 @@ def get_bancos():
 
     
 @main.route('/<int:id_empleado>', methods=['PUT'])
-def editar_evento(id_empleado):    
+def editar_empleado(id_empleado):    
     has_access = Security.verify_token(request.headers)
     if has_access:
         try:

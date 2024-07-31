@@ -40,7 +40,36 @@ class EmpleadosServiceOlds():
         except Exception as ex:
             Logger.add_to_log("error", str(ex))
             Logger.add_to_log("error", traceback.format_exc())
-    
+
+    @classmethod
+    def get_empleados_inactivos(cls):
+        try:
+            connection = get_connection()
+            empleados = []
+            with connection.cursor() as cursor:
+                cursor.execute('''
+                 SELECT e.ID_CEMPLEADO, 
+                e.NOMBRE,COALESCE(e.Pin , "NO ASIGNADO") AS N_EMPLEADO, 
+                COALESCE(rhc.PUESTO, "") AS PUESTO
+                FROM OPS.Catalogo_Empleados e
+                LEFT JOIN OPS.RH_Cat_Puestos rhc ON e.ID_RHCPUESTO = rhc.ID_RHCPUESTO
+                WHERE e.ACTIVO = FALSE  AND (rhc.ACTIVO = TRUE OR rhc.ID_RHCPUESTO IS NULL) 
+                UNION
+                SELECT e.ID_CEMPLEADO, e.NOMBRE,COALESCE(e.Pin , "NO ASIGNADO") AS N_EMPLEADO,  COALESCE(rhc.PUESTO, "") AS PUESTO
+                FROM OPS.Catalogo_Empleados e
+                RIGHT JOIN OPS.RH_Cat_Puestos rhc ON e.ID_RHCPUESTO = rhc.ID_RHCPUESTO
+                WHERE e.ACTIVO = FALSE  AND rhc.ACTIVO = TRUE order by NOMBRE;  
+                ''')
+                resultset = cursor.fetchall()
+                for row in resultset:
+                    empleado = Empleado.empleadosAll_serializers(int(row[0]), row[1], row[2], row[3])
+                    empleados.append(empleado)
+            connection.close()
+            return empleados
+        except Exception as ex:
+            Logger.add_to_log("error", str(ex))
+            Logger.add_to_log("error", traceback.format_exc())
+
     @classmethod
     def get_empleado_by_id(cls, id):
         try:
@@ -134,7 +163,7 @@ class EmpleadosServiceOlds():
 
             if empleado.nombre:
                 campos.append("NOMBRE")
-                valores.append(empleado.nombre)
+                valores.append(empleado.nombre.upper())
             if empleado.fecha_nacimiento:
                 campos.append("FECHA_NACIMIENTO")
                 valores.append(empleado.fecha_nacimiento)
@@ -399,39 +428,39 @@ class EmpleadosServiceOlds():
                         SELECT ID_CEMPLEADOT FROM OPS.Catalogo_EmpleadosT ET, OPS.Catalogo_Empleados E
                         where E.ID_CEMPLEADO = '%s' AND E.NOMBRE  = ET.NOMBRE AND E.ACTIVO = 1 AND ET.ACTIVO =1 ;
                         ''', (id_empleado))
-                    id_empleadoT = cursor.fetchone()[0]
-                    # Verificar si el sueldo ha cambiado
-                    cursor.execute('''
-                        SELECT SUELDO FROM OPS.Base_Sueldos WHERE ID_CEMPLEADOT = %s AND ACTIVO = 1;
-                    ''', (id_empleadoT,))
-                    current_sueldo = cursor.fetchone()
-                
+                    if cursor.fetchone() :
+                        id_empleadoT = cursor.fetchone()[0]
+                        # Verificar si el sueldo ha cambiado
+                        cursor.execute('''
+                            SELECT SUELDO FROM OPS.Base_Sueldos WHERE ID_CEMPLEADOT = %s AND ACTIVO = 1;
+                        ''', (id_empleadoT,))
+                        current_sueldo = cursor.fetchone()
 
-                    if float(current_sueldo[0]) != float(empleado.sueldo):
-                        # Actualizar sueldo en la tabla OPS.Base_Sueldos
-                        cursor.execute('''
-                            UPDATE OPS.Base_Sueldos
-                            SET ACTIVO= False
-                            WHERE ID_CEMPLEADOT = %s;
-                        ''', (empleado.sueldo, id_empleadoT))
-                        # Actualizar sueldo en la tabla RH_Cat_Sueldos (con ID_CEMPLEADOT)
-                        cursor.execute('''
-                            UPDATE RH_Cat_Sueldos
-                            SET ACTIVO=FALSE
-                            WHERE ID_CEMPLEADO = %s;
-                        ''', (empleado.sueldo, id_empleado))
+                        if float(current_sueldo[0]) != float(empleado.sueldo):
+                            # Actualizar sueldo en la tabla OPS.Base_Sueldos
+                            cursor.execute('''
+                                UPDATE OPS.Base_Sueldos
+                                SET ACTIVO= False
+                                WHERE ID_CEMPLEADOT = %s;
+                            ''', (empleado.sueldo, id_empleadoT))
+                            # Actualizar sueldo en la tabla RH_Cat_Sueldos (con ID_CEMPLEADOT)
+                            cursor.execute('''
+                                UPDATE RH_Cat_Sueldos
+                                SET ACTIVO=FALSE
+                                WHERE ID_CEMPLEADO = %s;
+                            ''', (empleado.sueldo, id_empleado))
 
-                        #INSERT Base_Sueldo  ID_CEMPLEADOT
-                        cursor.execute('''
-                        INSERT INTO `OPS`.`Base_Sueldos` (`SUELDO`, `FECHA`, `ID_CEMPLEADOT`)
-                        VALUES (%s, %s, %s);
-                        ''', (empleado.sueldo, empleado.fecha_ingreso , id_empleadoT))
+                            #INSERT Base_Sueldo  ID_CEMPLEADOT
+                            cursor.execute('''
+                            INSERT INTO `OPS`.`Base_Sueldos` (`SUELDO`, `FECHA`, `ID_CEMPLEADOT`)
+                            VALUES (%s, %s, %s);
+                            ''', (empleado.sueldo, empleado.fecha_ingreso , id_empleadoT))
 
-                        #INSERT RH_Cat_Sueldos  ID_CEMPLEADOT
-                        cursor.execute('''
-                        INSERT INTO `RH_Cat_Sueldos` (`SUELDO`,`ID_CEMPLEADO`)
-                        VALUES (%s, %s);
-                        ''', (empleado.sueldo, id_empleado))
+                            #INSERT RH_Cat_Sueldos  ID_CEMPLEADOT
+                            cursor.execute('''
+                            INSERT INTO `RH_Cat_Sueldos` (`SUELDO`,`ID_CEMPLEADO`)
+                            VALUES (%s, %s);
+                            ''', (empleado.sueldo, id_empleado))
 
             connection.commit()
             connection.close()
@@ -508,3 +537,100 @@ class EmpleadosServiceOlds():
         except Exception as ex:
             Logger.add_to_log("error", str(ex))
             Logger.add_to_log("error", traceback.format_exc())
+
+    @classmethod
+    def update_reingreso(cls, id_empleado, empleado_data):
+        try:
+            # Validar datos
+            empleado = empleado_schema.load(empleado_data)
+
+            connection = get_connection()
+            set_clause = []
+            values = []
+
+            if empleado.nombre is not None:
+                set_clause.append("NOMBRE = %s")
+                values.append(empleado.nombre)
+            if empleado.pin is not None:
+                set_clause.append("PIN = %s")
+                values.append(empleado.pin)
+            if empleado.fecha_nacimiento is not None:
+                set_clause.append("FECHA_NACIMIENTO = %s")
+                values.append(empleado.fecha_nacimiento)
+            if empleado.genero is not None:
+                set_clause.append("GENERO = %s")
+                values.append(empleado.genero)
+            if empleado.progenitor is not None:
+                set_clause.append("PROGENITOR = %s")
+                values.append(empleado.progenitor)
+            if empleado.correo is not None:
+                set_clause.append("CORREO = %s")
+                values.append(empleado.correo)
+            if empleado.usuario is not None:
+                set_clause.append("USUARIO = %s")
+                values.append(empleado.usuario)
+            if empleado.celular is not None:
+                set_clause.append("CELULAR = %s")
+                values.append(empleado.celular)
+            if empleado.clave is not None:
+                set_clause.append("CLAVE = %s")
+                values.append(empleado.clave)
+            if empleado.maquilador is not None:
+                set_clause.append("MAQUILADOR = %s")
+                values.append(empleado.maquilador)
+            if empleado.id_banco is not None:
+                set_clause.append("BANCO = %s")
+                values.append(empleado.id_banco)
+            if empleado.clave_interbancaria is not None:
+                set_clause.append("CLAVE_INTERBANCARIA = %s")
+                values.append(empleado.clave_interbancaria)
+            if empleado.id_puesto is not None:
+                set_clause.append("ID_RHCPUESTO = %s")
+                values.append(empleado.id_puesto)
+                
+
+            if not set_clause:
+                raise ValueError("nada para actualizar")
+
+            set_clause_str = ", ".join(set_clause)
+            values.append(id_empleado)
+
+            with connection.cursor() as cursor:
+                cursor.execute(f'''
+                    UPDATE OPS.Catalogo_Empleados
+                    SET {set_clause_str} , ACTIVO = TRUE
+                    WHERE ID_CEMPLEADO = %s;
+                ''', tuple(values))
+
+                #id EmpleadoT
+                cursor.execute('''
+                    SELECT ID_CEMPLEADOT FROM OPS.Catalogo_EmpleadosT ET, OPS.Catalogo_Empleados E
+                    where E.ID_CEMPLEADO = '%s' AND E.NOMBRE  = ET.NOMBRE;
+                    ''', (id_empleado))
+                id_empleadoT = cursor.fetchone()[0]
+                cursor.execute(f'''
+                    UPDATE OPS.Catalogo_EmpleadosT
+                    SET NOMBRE = %s, ACTIVO = TRUE
+                    WHERE ID_CEMPLEADOT = %s;
+                ''', (empleado.nombre, id_empleadoT))
+                
+                #INSERT Base_Sueldo  ID_CEMPLEADOT
+                cursor.execute('''
+                INSERT INTO `OPS`.`Base_Sueldos` (`SUELDO`, `FECHA`, `ID_CEMPLEADOT`)
+                VALUES (%s, %s, %s);
+                ''', (empleado.sueldo, empleado.fecha_ingreso , id_empleadoT))
+                #INSERT RH_Cat_Sueldos  ID_CEMPLEADOT
+                cursor.execute('''
+                INSERT INTO `RH_Cat_Sueldos` (`SUELDO`,`ID_CEMPLEADO`)
+                VALUES (%s, %s);
+                ''', (empleado.sueldo, id_empleado))
+
+            connection.commit()
+            connection.close()
+
+            return True
+        except Exception as ex:
+            Logger.add_to_log("error", str(ex))
+            Logger.add_to_log("error", traceback.format_exc())
+            return False
+    
