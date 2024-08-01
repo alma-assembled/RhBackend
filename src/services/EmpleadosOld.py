@@ -217,12 +217,11 @@ class EmpleadosServiceOlds():
                 INSERT INTO OPS.Catalogo_Empleados ({campos_str})
                     VALUES ({valores_placeholder});
                 ''', tuple(valores))
-                if cursor.lastrowid:
-                    idEmpleado = cursor.lastrowid
-                else:
+                idEmpleado = cursor.lastrowid
+                if not idEmpleado:
                     cursor.execute('''
-                        SELECT ID_CEMPLEADO FROM OPS.Catalogo_Empleados WHERE NOMBRE=%s AND PIN=%s;
-                    ''', (empleado.nombre, empleado.pin))
+                        SELECT ID_CEMPLEADO FROM OPS.Catalogo_Empleados WHERE NOMBRE=%s ;
+                    ''', (empleado.nombre))
                     idEmpleado = cursor.fetchone()[0]
 
             with connection.cursor() as cursor:
@@ -232,14 +231,12 @@ class EmpleadosServiceOlds():
                INSERT INTO `Catalogo_EmpleadosT` (`NOMBRE`)
                 VALUES (%s);
                 ''', (empleado.nombre))
-
-                if cursor.lastrowid:
-                    idEmpleadoT = cursor.lastrowid
-                else:
+                idEmpleadoT = cursor.lastrowid
+                if not idEmpleadoT:
                     cursor.execute('''
                     SELECT ID_CEMPLEADOT FROM OPS.Catalogo_EmpleadosT WHERE NOMBRE="%s";
                     ''', (empleado.nombre))
-                    empleado.idEmpleado = cursor.fetchone()[0]
+                    idEmpleadoT = cursor.fetchone()[0]
 
                 #INSERT Base_Sueldo  ID_CEMPLEADOT
                 cursor.execute('''
@@ -278,23 +275,16 @@ class EmpleadosServiceOlds():
                 ''', (id_empleado,))
                 
                 # Obtener ID_CEMPLEADOT.
-                print(f"Executing SELECT query with id_empleado: {id_empleado}")
                 cursor.execute(f'''
                     SELECT ET.ID_CEMPLEADOT 
                     FROM OPS.Catalogo_EmpleadosT ET
                     JOIN OPS.Catalogo_Empleados E ON E.NOMBRE = ET.NOMBRE 
                     WHERE E.ID_CEMPLEADO = {id_empleado} AND E.ACTIVO = TRUE AND ET.ACTIVO = TRUE;
                 ''')
-                result = cursor.fetchone()
-                print(f'''
-                    SELECT ET.ID_CEMPLEADOT 
-                    FROM OPS.Catalogo_EmpleadosT ET
-                    JOIN OPS.Catalogo_Empleados E ON E.NOMBRE = ET.NOMBRE 
-                    WHERE E.ID_CEMPLEADO = {id_empleado} AND E.ACTIVO = TRUE AND ET.ACTIVO = TRUE;
-                ''')
+                result = cursor.fetchone() 
                 if result:
                     id_empleadoT = result[0]
-                    print(f"ID_CEMPLEADOT recuperado: {id_empleadoT}")
+                    #print(f"ID_CEMPLEADOT recuperado: {id_empleadoT}")
                     # Actualizar el registro del empleado en `Catalogo_EmpleadosT`
                     
                     cursor.execute('''
