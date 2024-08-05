@@ -161,7 +161,6 @@ def get_bancos():
     else:
         response = jsonify({'message': 'Unauthorized'})
         return response, 401
-
     
 @main.route('/<int:id_empleado>', methods=['PUT'])
 def editar_empleado(id_empleado):    
@@ -176,7 +175,6 @@ def editar_empleado(id_empleado):
         except Exception as ex:
             Logger.add_to_log(f"Error: {str(ex)}")
             return jsonify({'message': "ERROR", 'success': False}), 500
-
 
 @main.route('/resumen')
 def get_resumen():
@@ -193,8 +191,7 @@ def get_resumen():
             return jsonify({'message': "ERROR", 'success': False})
     else:
         response = jsonify({'message': 'Unauthorized'})
-        return response, 401
-    
+        return response, 401    
 
 @main.route('/cumple')
 def get_cumpleaños():
@@ -205,7 +202,7 @@ def get_cumpleaños():
             if (len(data) > 0):
                 return jsonify({'data': data, 'message': "SUCCESS", 'success': True})
             else:
-                return jsonify({'message': "NOTFOUND", 'success': True})
+                return jsonify({'data': "NOTFOUND", 'success': True})
         except Exception as ex:
           #  Logger.add_to_log(f"Error routes getEmpleados: {str(ex)}")
             print(ex)

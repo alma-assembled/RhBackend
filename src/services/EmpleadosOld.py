@@ -113,13 +113,17 @@ class EmpleadosServiceOlds():
                         AND ID_CEMPLEADOT = %s;
                     ''', (id_empleadoT,))
                     sueldo_result = cursor.fetchone()
-                    sueldo = sueldo_result[1] if sueldo_result else None
-                    fecha = sueldo_result[2] if sueldo_result else None
+                    if sueldo_result is not None :
+                        sueldo = sueldo_result[1] if sueldo_result else None
+                        fecha = sueldo_result[2] if sueldo_result else None
 
-                    if isinstance(fecha, date):
-                        fecha = fecha.strftime('%Y-%m-%d')
+                        if isinstance(fecha, date):
+                            fecha = fecha.strftime('%Y-%m-%d')
+                        else:
+                            fecha = datetime.strptime(fecha, '%a, %d %b %Y %H:%M:%S %Z').strftime('%Y-%m-%d')
                     else:
-                        fecha = datetime.strptime(fecha, '%a, %d %b %Y %H:%M:%S %Z').strftime('%Y-%m-%d')
+                        sueldo = None
+                        fecha = None
 
                     fecha_nacimiento = resultset[10]
                     if isinstance(fecha_nacimiento, str):
@@ -264,6 +268,31 @@ class EmpleadosServiceOlds():
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
+    
+                # Obtener ID_CEMPLEADOT.
+                cursor.execute(f'''
+                    SELECT ET.ID_CEMPLEADOT 
+                    FROM OPS.Catalogo_EmpleadosT ET
+                    JOIN OPS.Catalogo_Empleados E ON E.NOMBRE = ET.NOMBRE 
+                    WHERE E.ID_CEMPLEADO = {id_empleado} AND E.ACTIVO = TRUE AND ET.ACTIVO = TRUE;
+                ''')
+                result = cursor.fetchone() 
+                if result is not None:
+                    id_empleadoT = result[0]
+                    print(f"ID_CEMPLEADOT recuperado: {id_empleadoT}")
+                    # Actualizar el registro del empleado en `Catalogo_EmpleadosT`
+                    
+                    cursor.execute('''
+                        UPDATE `OPS`.`Catalogo_EmpleadosT` SET `ACTIVO` = '0' WHERE `ID_CEMPLEADOT` = %s;
+                    ''', (id_empleadoT,))
+
+                    # Actualizar el sueldo del empleado en `Base_Sueldos`
+                    cursor.execute('''
+                        UPDATE `OPS`.`Base_Sueldos` SET `ACTIVO` = '0' WHERE ID_CEMPLEADOT = %s ;
+                    ''', (id_empleadoT,))
+                else:
+                    print("No se encontró ningún EmpleadoT.")
+
                 # Actualizar el registro del empleado en `Catalogo_Empleados`
                 cursor.execute('''
                     UPDATE `OPS`.`Catalogo_Empleados` SET `ACTIVO` = '0' WHERE `ID_CEMPLEADO` = %s;
@@ -273,32 +302,6 @@ class EmpleadosServiceOlds():
                 cursor.execute('''
                     UPDATE `RH_Cat_Sueldos` SET `ACTIVO` = '0' WHERE ID_CEMPLEADO = %s AND ACTIVO = 1;
                 ''', (id_empleado,))
-                
-                # Obtener ID_CEMPLEADOT.
-                cursor.execute(f'''
-                    SELECT ET.ID_CEMPLEADOT 
-                    FROM OPS.Catalogo_EmpleadosT ET
-                    JOIN OPS.Catalogo_Empleados E ON E.NOMBRE = ET.NOMBRE 
-                    WHERE E.ID_CEMPLEADO = {id_empleado} AND E.ACTIVO = TRUE AND ET.ACTIVO = TRUE;
-                ''')
-                result = cursor.fetchone() 
-                if result:
-                    id_empleadoT = result[0]
-                    #print(f"ID_CEMPLEADOT recuperado: {id_empleadoT}")
-                    # Actualizar el registro del empleado en `Catalogo_EmpleadosT`
-                    
-                    cursor.execute('''
-                        UPDATE `OPS`.`Catalogo_EmpleadosT` SET `ACTIVO` = '0' WHERE `ID_CEMPLEADOT` = %s;
-                    ''', (id_empleadoT,))
-
-
-                    # Actualizar el sueldo del empleado en `Base_Sueldos`
-                    cursor.execute('''
-                        UPDATE `OPS`.`Base_Sueldos` SET `ACTIVO` = '0' WHERE ID_CEMPLEADOT = %s AND ACTIVO = 1;
-                    ''', (id_empleadoT,))
-                else:
-                    print("No se encontró ningún EmpleadoT.")
-
                 
             connection.commit()
             return True
@@ -418,33 +421,64 @@ class EmpleadosServiceOlds():
                         SELECT ID_CEMPLEADOT FROM OPS.Catalogo_EmpleadosT ET, OPS.Catalogo_Empleados E
                         where E.ID_CEMPLEADO = '%s' AND E.NOMBRE  = ET.NOMBRE AND E.ACTIVO = 1 AND ET.ACTIVO =1 ;
                         ''', (id_empleado))
-                    if cursor.fetchone() :
-                        id_empleadoT = cursor.fetchone()[0]
+                    resultado = cursor.fetchone() 
+                    if resultado is not None :
+                        id_empleadoT = resultado[0]
                         # Verificar si el sueldo ha cambiado
                         cursor.execute('''
                             SELECT SUELDO FROM OPS.Base_Sueldos WHERE ID_CEMPLEADOT = %s AND ACTIVO = 1;
                         ''', (id_empleadoT,))
-                        current_sueldo = cursor.fetchone()
+                        result_sueldo =  cursor.fetchone()
+                        if result_sueldo  is not None :
+                            current_sueldo = result_sueldo[0]
+                            
+                            if float(current_sueldo) != float(empleado.sueldo):
+                                # Actualizar sueldo en la tabla OPS.Base_Sueldos
+                                cursor.execute('''
+                                    UPDATE OPS.Base_Sueldos
+                                    SET ACTIVO= False
+                                    WHERE ID_CEMPLEADOT = %s;
+                                ''', ( id_empleadoT))
+                                # Actualizar sueldo en la tabla RH_Cat_Sueldos (con ID_CEMPLEADOT)
+                                cursor.execute('''
+                                    UPDATE RH_Cat_Sueldos
+                                    SET ACTIVO=FALSE
+                                    WHERE ID_CEMPLEADO = %s;
+                                ''', (id_empleado))
 
-                        if float(current_sueldo[0]) != float(empleado.sueldo):
-                            # Actualizar sueldo en la tabla OPS.Base_Sueldos
-                            cursor.execute('''
-                                UPDATE OPS.Base_Sueldos
-                                SET ACTIVO= False
-                                WHERE ID_CEMPLEADOT = %s;
-                            ''', (empleado.sueldo, id_empleadoT))
-                            # Actualizar sueldo en la tabla RH_Cat_Sueldos (con ID_CEMPLEADOT)
-                            cursor.execute('''
-                                UPDATE RH_Cat_Sueldos
-                                SET ACTIVO=FALSE
-                                WHERE ID_CEMPLEADO = %s;
-                            ''', (empleado.sueldo, id_empleado))
+                                #INSERT Base_Sueldo  ID_CEMPLEADOT
+                                cursor.execute('''
+                                INSERT INTO `OPS`.`Base_Sueldos` (`SUELDO`, `FECHA`, `ID_CEMPLEADOT`)
+                                VALUES (%s, %s, %s);
+                                ''', (empleado.sueldo, empleado.fecha_ingreso , id_empleadoT))
+
+                                #INSERT RH_Cat_Sueldos  ID_CEMPLEADOT
+                                cursor.execute('''
+                                INSERT INTO `RH_Cat_Sueldos` (`SUELDO`,`ID_CEMPLEADO`)
+                                VALUES (%s, %s);
+                                ''', (empleado.sueldo, id_empleado))
+                        else : 
 
                             #INSERT Base_Sueldo  ID_CEMPLEADOT
                             cursor.execute('''
                             INSERT INTO `OPS`.`Base_Sueldos` (`SUELDO`, `FECHA`, `ID_CEMPLEADOT`)
                             VALUES (%s, %s, %s);
                             ''', (empleado.sueldo, empleado.fecha_ingreso , id_empleadoT))
+                            
+                            # Verificar si el sueldo ha cambiado
+                            cursor.execute('''
+                                SELECT SUELDO FROM OPS.RH_Cat_Sueldos WHERE ID_CEMPLEADO = %s AND ACTIVO = 1;
+                            ''', (id_empleado,))
+                            result_sueldo =  cursor.fetchone()
+                            if result_sueldo is not None :
+                                rh_cat_sueldo = result_sueldo[0]
+
+                                # Actualizar sueldo en la tabla RH_Cat_Sueldos (con ID_CEMPLEADO)
+                                cursor.execute('''
+                                    UPDATE RH_Cat_Sueldos
+                                    SET ACTIVO=FALSE
+                                    WHERE ID_CEMPLEADO = %s;
+                                    ''', (id_empleado))
 
                             #INSERT RH_Cat_Sueldos  ID_CEMPLEADOT
                             cursor.execute('''
@@ -479,13 +513,13 @@ class EmpleadosServiceOlds():
 
                 cursor.execute('''
                     SELECT COUNT( NOMBRE ) TOTAL FROM OPS.Catalogo_Empleados 
-                    WHERE ACTIVO = 1 AND ID_RHCPUESTO=17 AND GENERO="H";
+                    WHERE ACTIVO = 1 AND ID_RHCPUESTO=17 AND GENERO="M";  
                 ''')
                 total_maquiladores_mujeres = cursor.fetchone()[0]
 
                 cursor.execute('''
                     SELECT COUNT( NOMBRE ) TOTAL FROM OPS.Catalogo_Empleados 
-                        WHERE ACTIVO = 1 AND ID_RHCPUESTO=17 AND GENERO="M";
+                    WHERE ACTIVO = 1 AND ID_RHCPUESTO=17 AND GENERO="H";                    
                 ''')
                 total_maquiladores_hombres = cursor.fetchone()[0]
 
